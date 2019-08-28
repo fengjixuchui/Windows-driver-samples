@@ -5,7 +5,10 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
+
 
 <!---
     name: XPS Documents Print Sample

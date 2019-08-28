@@ -5,7 +5,10 @@ languages:
 - xml
 products:
 - windows
+- windows-wdk
 ---
+
+
 
 <!---
     name: WSDMon Bidi Extension Sample

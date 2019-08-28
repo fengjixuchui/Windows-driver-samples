@@ -5,7 +5,9 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
 
 <!---
     name: KMDF filter driver for a HID device

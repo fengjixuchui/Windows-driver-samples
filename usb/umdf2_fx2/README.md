@@ -5,7 +5,10 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
+
 
 <!---
     name: Sample Function Driver for OSR USB-FX2 (UMDF Version 2)

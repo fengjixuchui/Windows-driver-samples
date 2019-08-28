@@ -5,7 +5,9 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
 
 <!---
     name: Windows Image Acquisition (WIA) Driver Samples

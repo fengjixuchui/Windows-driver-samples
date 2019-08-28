@@ -5,7 +5,10 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
+
 
 <!---
     name: Echo Sample (UMDF Version 2)

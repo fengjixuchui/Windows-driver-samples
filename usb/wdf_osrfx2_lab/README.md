@@ -5,7 +5,10 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
+
 
 <!---
     name: WDF Sample Driver Learning Lab for OSR USB-FX2

@@ -6,7 +6,9 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
 
 <!---
     name: Virtual serial driver sample (UMDF version 2)

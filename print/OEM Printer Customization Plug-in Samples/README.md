@@ -5,7 +5,10 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
+
 
 <!---
     name: OEM Printer Customization Plug-in Samples

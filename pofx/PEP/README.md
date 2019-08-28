@@ -5,7 +5,9 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
 
 <!---
     name: Power Engine Plugin (PEP) ACPI Sample

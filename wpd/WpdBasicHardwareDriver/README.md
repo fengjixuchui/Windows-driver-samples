@@ -5,7 +5,9 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
 
 <!---
     name: WPD Basic Hardware Sample Driver

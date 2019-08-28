@@ -6,7 +6,10 @@ languages:
 - xml
 products:
 - windows
+- windows-wdk
 ---
+
+
 
 <!---
     name: USB Host-Based Print Driver Sample

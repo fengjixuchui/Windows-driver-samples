@@ -6,7 +6,9 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
 
 <!---
     name: AvsCamera - AVStream Camera Sample Driver

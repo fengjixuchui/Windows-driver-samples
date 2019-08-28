@@ -5,7 +5,10 @@ languages:
 - cpp
 products:
 - windows
+- windows-wdk
 ---
+
+
 
 <!---
     name: Radio Switch Test Driver for OSR USB-FX2 Development Board
