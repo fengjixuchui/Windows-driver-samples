@@ -104,6 +104,16 @@ PKSJACK_DESCRIPTION SpeakerJackDescriptions[] =
     &SpeakerJackDescBridge
 };
 
+static SYSVAD_AUDIOPOSTURE_INFO SpeakerAudioPostureInfo = { TRUE };
+
+// Only support property for the physical bridge pin.
+static
+PSYSVAD_AUDIOPOSTURE_INFO SpeakerAudioPostureInfoPointers[]
+{
+    NULL,
+    &SpeakerAudioPostureInfo
+};
+
 //=============================================================================
 static
 PCCONNECTION_DESCRIPTOR SpeakerTopoMiniportConnections[] =
@@ -130,9 +140,21 @@ PCPROPERTY_ITEM PropertiesSpeakerTopoFilter[] =
         KSPROPERTY_TYPE_GET |
         KSPROPERTY_TYPE_BASICSUPPORT,
         PropertyHandler_SpeakerTopoFilter
+    },
+    {
+        &KSPROPSETID_AudioResourceManagement,
+        KSPROPERTY_AUDIORESOURCEMANAGEMENT_RESOURCEGROUP,
+        KSPROPERTY_TYPE_SET,
+        PropertyHandler_SpeakerTopoFilter
+    }
+    ,{
+        &KSPROPSETID_AudioPosture,
+        KSPROPERTY_AUDIOPOSTURE_ORIENTATION,
+        KSPROPERTY_TYPE_SET |
+        KSPROPERTY_TYPE_BASICSUPPORT,
+        PropertyHandler_SpeakerTopoFilter
     }
 };
-
 
 DEFINE_PCAUTOMATION_TABLE_PROP(AutomationSpeakerTopoFilter, PropertiesSpeakerTopoFilter);
 

@@ -18,6 +18,7 @@ ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
 Provider="Sample Provider"
 DriverVer=12/12/2017,10.0.0.1
 CatalogFile=Defect_Toastmon.cat
+PnpLockdown=1
 
 [DestinationDirs]
 DefaultDestDir = 12
@@ -56,12 +57,6 @@ ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
 StartType      = 1                  ; SERVICE_SYSTEM_START
 ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
 ServiceBinary  = %12%\defect_toastmon.sys                            
-
-[DeviceInstall32]
-AddDevice=ROOT\Samples\0001,,ToastMonbuggy
-
-[ToastMonBuggy]
-HardwareIds=root\defect_toastmon
 
 ; ================= Source Media Section =====================
 

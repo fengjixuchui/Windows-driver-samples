@@ -77,15 +77,19 @@
   <ItemGroup Label="WrappedTaskItems" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>usbview</TargetName>
+    <ManagedAssembly>true</ManagedAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>usbview</TargetName>
+    <ManagedAssembly>true</ManagedAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>usbview</TargetName>
+    <ManagedAssembly>true</ManagedAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>usbview</TargetName>
+    <ManagedAssembly>true</ManagedAssembly>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -100,6 +104,9 @@
       <BaseAddress Condition="!('$(Platform)'=='x64')">0x1000000</BaseAddress>
       <AdditionalDependencies>%(AdditionalDependencies);shell32.lib;kernel32.lib;user32.lib;gdi32.lib;comctl32.lib;cfgmgr32.lib;comdlg32.lib;ole32.lib;setupapi.lib;strsafe.lib;shlwapi.lib</AdditionalDependencies>
     </Link>
+    <DriverSign>
+      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
+    </DriverSign>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -114,6 +121,9 @@
       <BaseAddress Condition="!('$(Platform)'=='x64')">0x1000000</BaseAddress>
       <AdditionalDependencies>%(AdditionalDependencies);shell32.lib;kernel32.lib;user32.lib;gdi32.lib;comctl32.lib;cfgmgr32.lib;comdlg32.lib;ole32.lib;setupapi.lib;strsafe.lib;shlwapi.lib</AdditionalDependencies>
     </Link>
+    <DriverSign>
+      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
+    </DriverSign>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -128,6 +138,9 @@
       <BaseAddress Condition="!('$(Platform)'=='x64')">0x1000000</BaseAddress>
       <AdditionalDependencies>%(AdditionalDependencies);shell32.lib;kernel32.lib;user32.lib;gdi32.lib;comctl32.lib;cfgmgr32.lib;comdlg32.lib;ole32.lib;setupapi.lib;strsafe.lib;shlwapi.lib</AdditionalDependencies>
     </Link>
+    <DriverSign>
+      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
+    </DriverSign>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,6 +155,9 @@
       <BaseAddress Condition="!('$(Platform)'=='x64')">0x1000000</BaseAddress>
       <AdditionalDependencies>%(AdditionalDependencies);shell32.lib;kernel32.lib;user32.lib;gdi32.lib;comctl32.lib;cfgmgr32.lib;comdlg32.lib;ole32.lib;setupapi.lib;strsafe.lib;shlwapi.lib</AdditionalDependencies>
     </Link>
+    <DriverSign>
+      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
+    </DriverSign>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="debug.c" />
