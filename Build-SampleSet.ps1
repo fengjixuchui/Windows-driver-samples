@@ -14,7 +14,7 @@ $root = Get-Location
 if (-not $env:VSCMD_VER) {
     Import-Module (Resolve-Path "$env:ProgramFiles\Microsoft Visual Studio\2022\*\Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
     Enter-VsDevShell -VsInstallPath (Resolve-Path "$env:ProgramFiles\Microsoft Visual Studio\2022\*")
-    cd $root
+    Set-Location $root
 }
 
 $ThrottleFactor = 5
@@ -56,20 +56,17 @@ finally {
 # Determine build environment: 'GitHub', 'NuGet', 'EWDK', or 'WDK'.
 # Determine build number (used for exclusions based on build number).  Five digits.  Say, '22621'.
 # Determine NuGet package version (if applicable).
-# Determine WDK vsix version.
 #
 $build_environment=""
 $build_number=0
 $nuget_package_version=0
-$vsix_version=""
 #
-# In Github we build using NuGet and get the version from packages and vsix version from env var set from the install vsix step.
+# In Github we build using NuGet.
 #
 if ($env:GITHUB_REPOSITORY) {
     $build_environment="GitHub"
     $nuget_package_version=([regex]'(?<=x64\.)(\d+\.)(\d+\.)(\d+\.)(\d+)').Matches((Get-Childitem .\packages\*WDK.x64* -Name)).Value
     $build_number=$nuget_package_version.split('.')[2]
-    $vsix_version = $env:SAMPLES_VSIX_VERSION
 }
 #
 # WDK NuGet will require presence of a folder 'packages'. The version is sourced from repo .\Env-Vars.ps1.
@@ -100,21 +97,23 @@ else {
 
     # Dump all environment variables so as to help debug error:
     Write-Output "Environment variables {"
-    gci env:* | sort-object name
+    Get-ChildItem env:* | Sort-Object name
     Write-Output "Environment variables }"
 
     Write-Error "Could not determine build environment."
     exit 1
 }
 #
-# Get the vsix version from packages if not set
-if (-not $vsix_version) {
-    $vsix_version = ls "${env:ProgramData}\Microsoft\VisualStudio\Packages\Microsoft.Windows.DriverKit,version=*" | Select -ExpandProperty Name
-    if ($vsix_version) {
-        $vsix_version = $vsix_version.split('=')[1]
+# Get the WDK extension version from installed packages
+$wdk_extension_ver = Get-ChildItem "${env:ProgramData}\Microsoft\VisualStudio\Packages\Microsoft.Windows.DriverKit,version=*" | Select-Object -ExpandProperty Name
+$wdk_extension_ver = ([regex]'(\d+\.)(\d+\.)(\d+\.)(\d+)').Matches($wdk_extension_ver).Value
+if (-not $wdk_extension_ver) {
+    # Be lenient with EWDK builds that do not include the package information
+    if ($build_environment -match '^EWDK') {
+        $wdk_extension_ver = "(package not found)"
     }
     else {
-        Write-Error "No version of the WDK VSIX could be found. The WDK VSIX is not installed."
+        Write-Error "No version of the WDK Visual Studio Extension could be found. The WDK Extension is not installed."
         exit 1
     }
 }
@@ -180,20 +179,22 @@ $jresult = @{
 
 $SolutionsTotal = $sampleSet.Count * $Configurations.Count * $Platforms.Count
 
-Write-Output ("Build Environment:          " + $build_environment)
-Write-Output ("Build Number:               " + $build_number)
-if (($build_environment -eq "GitHub") -or ($build_environment -eq "NuGet")) { Write-Output ("Nuget Package Version:      " + $nuget_package_version) }
-Write-Output ("WDK VSIX Version:           " + $vsix_version)
-Write-Output ("Samples:                    " + $sampleSet.Count)
-Write-Output ("Configurations:             " + $Configurations.Count + " (" + $Configurations + ")")
-Write-Output ("Platforms:                  " + $Platforms.Count + " (" + $Platforms + ")")
+Write-Output "WDK Build Environment:      $build_environment"
+Write-Output "WDK Build Number:           $build_number"
+if (($build_environment -eq "GitHub") -or ($build_environment -eq "NuGet")) { 
+Write-Output "WDK Nuget Version:          $nuget_package_version" 
+}
+Write-Output "WDK Extension Version:      $wdk_extension_ver"
+Write-Output "Samples:                    $($sampleSet.Count)"
+Write-Output "Configurations:             $($Configurations.Count) ($Configurations)"
+Write-Output "Platforms:                  $($Platforms.Count) ($Platforms)"
 Write-Output "InfVerif_AdditionalOptions: $InfVerif_AdditionalOptions"
 Write-Output "Combinations:               $SolutionsTotal"
 Write-Output "LogicalProcessors:          $LogicalProcessors"
 Write-Output "ThrottleFactor:             $ThrottleFactor"
 Write-Output "ThrottleLimit:              $ThrottleLimit"
 Write-Output "WDS_WipeOutputs:            $env:WDS_WipeOutputs"
-Write-Output ("Disk Remaining (GB):        " + (((Get-Volume ($DriveLetter = (Get-Item ".").PSDrive.Name)).SizeRemaining / 1GB)))
+Write-Output "Disk Remaining (GB):        $(((Get-Volume ((Get-Item ".").PSDrive.Name)).SizeRemaining) / 1GB)"
 Write-Output ""
 Write-Output "T: Combinations"
 Write-Output "B: Built"
@@ -353,7 +354,7 @@ $Results = $jresult.Results
 Write-Output "Built all combinations."
 Write-Output ""
 Write-Output "Elapsed time:         $min minutes, $seconds seconds."
-Write-Output ("Disk Remaining (GB):  " + (((Get-Volume ($DriveLetter = (Get-Item ".").PSDrive.Name)).SizeRemaining / 1GB)))
+Write-Output ("Disk Remaining (GB):  " + (((Get-Volume (Get-Item ".").PSDrive.Name).SizeRemaining / 1GB)))
 Write-Output ("Samples:              " + $sampleSet.Count)
 Write-Output ("Configurations:       " + $Configurations.Count + " (" + $Configurations + ")")
 Write-Output ("Platforms:            " + $Platforms.Count + " (" + $Platforms + ")")
